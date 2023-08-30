@@ -1,40 +1,61 @@
-import inquirer = require ("inquirer")
+const inquirer = require('inquirer');
 
-inquirer.prompt([
 
-    {
+// Inital Prompt - Main Menu
+const promptUser = () => {
+    inquirer
 
-        type: 'list',
-        questions: 'questions',
-        message: 'What would you like to do? ',
-        choices: [
-        "View All Employees", 
-        "Add Employee", 
-        "Update Employee Role",
-        "View All Roles", 
-        "Add Role",
-        "View All Departments",
-        "Add Department"
-    ],
-      
-    
-    } ])
-
-    .then(answers =>{
-        console.log('You selected:', answers.questions);})
-        .catch(error => {
-            console.error("Error occured:", error);
+        // Prompt the user
+        .prompt({
+            type: 'list',
+            name: 'begin choices',
+            message: 'What would you like to do? (Select on of the following)',
+            choices: ['View All Employees', 'View All Employees By Department', 'View All Employees By Manager', 'Add Employee', 'Update Employee Role', 'View Departments', 'Add Department', 'View Roles', 'Add Role', 'View totalized budget', 'I am finished']
         })
+        // Take the data and use switch statements to decide what to do per option
+        .then((data) => {
+            switch (data['begin choices']) {
+                case 'View All Employees':
+                    viewAllEmp();
+                    break;
+                case 'View All Employees By Department':
+                    viewEmpByDep();
+                    break;
+                case 'View All Employees By Manager':
+                    viewEmpByMngt();
+                    break;
+                case 'Add Employee':
+                    addEmp();
+                    break;
+                case 'Update Employee Role':
+                    upEmp();
+                    break;
+                case 'View Departments':
+                    viewDep();
+                    break;
+                case 'Add Department':
+                    addDep();
+                    break;
+                case 'View Roles':
+                    viewRoles();
+                    break;
+                case 'Add Role':
+                    addRole();
+                    break;
+                case 'View totalized budget':
+                    addTotalByDep();
+                    break;
+                case 'I am finished':
+                    break;
+            }
+        })
+};
 
+// You must export your module before you require module for circular page being required
+module.exports = { promptUser }
+const { viewAllEmp, viewEmpByDep, viewEmpByMngt, addEmp, upEmp } = require('./lib/employee');
+const { viewDep, addDep } = require('./lib/department-methods');
+const { viewRoles, addRole } = require('./lib/roles-methods');
+const { addTotalByDep } = require('../Employee-tracker/lib/calculations');
 
-
-
-
-
-//
-//(Move up and down to reveal more choices)
-
-//will need conditional statements 
-
-
-
+promptUser()
