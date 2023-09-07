@@ -217,3 +217,53 @@ const upEmp = () => {
 }
 
 
+const viewEmpByDep = () => {
+   
+    connection.query("SELECT * FROM department", (err, departments) => {
+        if (err) {
+            console.error(err.message);
+            promptUser();
+            return;
+        }
+
+        const departmentChoices = departments.map((department) => ({
+            name: department.name,
+            value: department.id,
+        }));
+
+        inquirer
+            .prompt([
+                {
+                    type: 'list',
+                    name: 'departmentId',
+                    message: 'Select a department:',
+                    choices: departmentChoices,
+                },
+            ])
+            .then((response) => {
+                const { departmentId } = response;
+
+                // Query to retrieve employees by department
+                const query = `
+                    SELECT e.id, e.first_name, e.last_name, r.title, d.name AS department
+                    FROM employee AS e
+                    INNER JOIN roles AS r ON e.role_id = r.id
+                    INNER JOIN department AS d ON r.department_id = d.id
+                    WHERE d.id = ?
+                `;
+
+                connection.query(query, [departmentId], (err, employees) => {
+                    if (err) {
+                        console.error(err.message);
+                        promptUser();
+                        return;
+                    }
+
+                    console.table(employees);
+                    promptUser();
+                });
+            });
+    });
+};
+
+
