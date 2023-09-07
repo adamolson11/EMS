@@ -20,7 +20,7 @@ INSERT INTO roles (title, salary, department_id) VALUES
     ('Intergalactic Explorer', 120000.00, 7),
     ('Supreme Empress of the Multiverse', 150000.00, 8);
 
---sample employees
+
 INSERT INTO employee (first_name, last_name, role_id, manager_id, manager_confirm)
 VALUES
     ('Jerry', 'Underwood', 1, null, true),

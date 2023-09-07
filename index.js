@@ -3,7 +3,7 @@ const {dropManagerTable, createManagerTable,addManagers, connection} = require (
 require ("console.table")
 connection.connect(function(err){
     if(err)console.error(err)
-    console.log("Emplouee tracker")
+    console.log("Employee tracker")
 promptUser()
 })
 // Initial Prompt - Main Menu
@@ -51,7 +51,8 @@ const promptUser = () => {
                     addTotalByDep();
                     break;
                 case 'I am finished':
-                    break;
+                   connection.end()
+                   process.exit(0)
             }
         })
 };
@@ -95,7 +96,7 @@ const viewRoles = () => {
 
 
 const viewAllEmp = () => {
-    connection.query("SELECT * from Employees;",
+    connection.query("SELECT * from employee;",
     function (err, results, fields) {
         if (err) {
             console.log(err.message);
@@ -105,4 +106,114 @@ const viewAllEmp = () => {
         promptUser()
     })
 }
+
+const addDep = () => {
+    inquirer.prompt([
+        {
+            type:"input",
+            name:"Department_Name",
+            message: "enter the department name",
+            
+
+        }
+    ])
+    .then(response =>{
+
+        connection.query("INSERT INTO department (name) VALUES(?); ",response.Department_Name,
+        function (err, results, fields) {
+            if (err) {
+                console.log(err.message);
+            }
+            console.table(results);
+    
+            promptUser()
+        })
+    })
+
+}
+
+
+const addRole = () => {
+    inquirer.prompt([
+        {
+            type:"input",
+            name:"Role_Name",
+            message: "enter the role name",
+            
+
+        }
+    ])
+    .then(response =>{
+
+        connection.query(" INSERT INTO roles (title) VALUES(?); ",response.Role_Name,
+        function (err, results, fields) {
+            if (err) {
+                console.log(err.message);
+            }
+            console.table(results);
+    
+            promptUser()
+        })
+    })
+
+}
+
+
+
+const addEmp = () => {
+    inquirer.prompt([
+        {
+            type:"input",
+            name:"Employee_Name",
+            message: "enter the new employee first and last name",
+            
+
+        }
+    ])
+
+    .then(response =>{
+
+        connection.query("INSERT INTO employee (first_name) VALUES(?); ",response.Employee_Name,
+        function (err, results, fields) {
+            if (err) {
+                console.log(err.message);
+            }
+            console.table(results);
+    
+            promptUser()
+        })
+    })
+
+}
+
+
+const upEmp = () => {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'employeeId',
+            message: 'Enter the ID of the employee you want to update:',
+        },
+        {
+            type: 'input',
+            name: 'newRoleId',
+            message: 'Enter the new role ID for the employee:',
+        },
+    ])
+    .then((response) => {
+        const { employeeId, newRoleId } = response;
+        const updateQuery = "UPDATE employee SET role_id = ? WHERE id = ?";
+
+        connection.query(updateQuery, [newRoleId, employeeId], (err, results) => {
+            if (err) {
+                console.error(err.message);
+            } else {
+                console.log(`Employee with ID ${employeeId} has been updated to the new role.`);
+            }
+
+            promptUser();
+        });
+    });
+}
+
 
