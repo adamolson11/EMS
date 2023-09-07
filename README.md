@@ -17,4 +17,6 @@ Source ../EMS/db/seed.sql
 
 - Step 4: Run 'node index' in the terminal while in root directory of the cloned project
 
+link to walkthrough video. 
+https://drive.google.com/file/d/1wSf4-YF_ENK9ZT89_WC9Z8op9K8SN9hp/view
 
