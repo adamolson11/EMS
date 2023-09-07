@@ -1,7 +1,12 @@
 const inquirer = require('inquirer');
-
-
-// Inital Prompt - Main Menu
+const {dropManagerTable, createManagerTable,addManagers, connection} = require ("./lib/reset")
+require ("console.table")
+connection.connect(function(err){
+    if(err)console.error(err)
+    console.log("Emplouee tracker")
+promptUser()
+})
+// Initial Prompt - Main Menu
 const promptUser = () => {
     inquirer
 
@@ -52,10 +57,52 @@ const promptUser = () => {
 };
 
 // You must export your module before you require module for circular page being required
-module.exports = { promptUser }
-const { viewAllEmp, viewEmpByDep, viewEmpByMngt, addEmp, upEmp } = require('./lib/employee');
-const { viewDep, addDep } = require('./lib/department-methods');
-const { viewRoles, addRole } = require('./lib/roles-methods');
-const { addTotalByDep } = require('../Employee-tracker/lib/calculations');
+// module.exports = { promptUser }
+// const { viewAllEmp, viewEmpByDep, viewEmpByMngt, addEmp, upEmp } = require('./lib/employee');
+// const { viewDep, addDep } = require('./lib/department-methods');
+// const { viewRoles, addRole } = require('./lib/roles-methods');
+// const { addTotalByDep } = require('../Employee-tracker/lib/calculations');
 
-promptUser()
+// promptUser()
+
+
+const viewDep = () => {
+    connection.query("SELECT * from department;",
+    function (err, results, fields) {
+        if (err) {
+            console.log(err.message);
+        }
+        console.table(results);
+
+        promptUser()
+    })
+}
+
+
+
+const viewRoles = () => {
+    connection.query("SELECT * from Roles;",
+    function (err, results, fields) {
+        if (err) {
+            console.log(err.message);
+        }
+        console.table(results);
+
+        promptUser()
+    })
+}
+
+
+
+const viewAllEmp = () => {
+    connection.query("SELECT * from Employees;",
+    function (err, results, fields) {
+        if (err) {
+            console.log(err.message);
+        }
+        console.table(results);
+
+        promptUser()
+    })
+}
+

@@ -1,4 +1,4 @@
--- Insert sample departments
+
 INSERT INTO department (name) VALUES 
     ('Sales'),
     ('Unemployment'),
@@ -9,7 +9,7 @@ INSERT INTO department (name) VALUES
     ('Space Exploration'),
     ('Universe Management');
 
--- Insert sample roles with unique and humorous titles
+
 INSERT INTO roles (title, salary, department_id) VALUES
     ('Master of Sales Shenanigans', 100000.00, 1),
     ('Professional Handshaker', 0.00, 2),
@@ -20,7 +20,7 @@ INSERT INTO roles (title, salary, department_id) VALUES
     ('Intergalactic Explorer', 120000.00, 7),
     ('Supreme Empress of the Multiverse', 150000.00, 8);
 
--- Insert sample employees
+--sample employees
 INSERT INTO employee (first_name, last_name, role_id, manager_id, manager_confirm)
 VALUES
     ('Jerry', 'Underwood', 1, null, true),
@@ -34,7 +34,7 @@ VALUES
     ('She-ra', 'Princess', 8, null, true);
 
 -- Populate manager table
-INSERT INTO manager (first_name, last_name)
-SELECT first_name, last_name
-FROM employee
-WHERE manager_confirm = 1;
+-- INSERT INTO manager (first_name, last_name)
+-- SELECT first_name, last_name
+-- FROM employee
+-- WHERE manager_confirm = 1;
